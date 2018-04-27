@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
 
+    public static CameraMovement singleton;
+
+    public bool isHovering;
+
     public float startSpeed;
     public float maxSpeed;
 
@@ -19,8 +23,20 @@ public class CameraMovement : MonoBehaviour {
 
     Vector3 lastMove;
 
+    void Start()
+    {
+        if (singleton == null)
+            singleton = this;
+    }
+
     // Update is called once per frame
     void Update () {
+        if (isHovering)
+        {
+            lastMove = Vector3.zero;
+            return;
+        }
+
         Vector3 move = Vector3.zero;
 		if(Input.mousePosition.y >= Screen.height * topBarrier && transform.position.z <= topBoundary)
         {
