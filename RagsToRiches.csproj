@@ -288,10 +288,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\RandomFromDistributions\Scripts\RandomFromDistribution.cs" />
+    <Compile Include="Assets\Scripts\BuildingManager.cs" />
     <Compile Include="Assets\Scripts\CameraMovement.cs" />
+    <Compile Include="Assets\Scripts\City.cs" />
+    <Compile Include="Assets\Scripts\House.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\UI\CityPanel.cs" />
     <Compile Include="Assets\Scripts\UI\Inventory.cs" />
+    <Compile Include="Assets\Scripts\UI\InventoryToolTip.cs" />
+    <Compile Include="Assets\Scripts\UI\Item.cs" />
     <Compile Include="Assets\Scripts\UI\OnHover.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

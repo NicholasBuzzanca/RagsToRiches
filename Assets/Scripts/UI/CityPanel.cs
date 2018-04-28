@@ -1,11 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CityPanel : MonoBehaviour {
 
     public static CityPanel singleton;
 
+    public Text nametext;
+
+    public Text exportText;
+    public Text foodtext;
+    public Text materialtext;
+    public Text luxurytext;
+
+    public Text buyCost;
+
+    City thisCity;
 
     CanvasGroup cg;
 
@@ -16,11 +27,37 @@ public class CityPanel : MonoBehaviour {
         cg = GetComponent<CanvasGroup>();
 	}
 
-    public void OpenCityPanel()
+    void Update()
+    {
+        if(thisCity != null)
+        {
+            thisCity.UpdateStock();
+            UpdateCityDisplay();
+        }
+    }
+
+    void UpdateCityDisplay()
+    {
+        nametext.text = thisCity.cityName;
+
+        exportText.text = "Exports: " + thisCity.export;
+        buyCost.text = thisCity.CostToBuy() + "";
+
+        foodtext.text = thisCity.foodStock + "";
+        materialtext.text = thisCity.materialStock + "";
+        luxurytext.text = thisCity.luxuryStock + "";
+    }
+
+    public void OpenCityPanel(City city)
     {
         cg.alpha = 1;
         cg.blocksRaycasts = true;
         cg.interactable = true;
+
+        thisCity = city;
+
+        //enter data
+        UpdateCityDisplay();
     }
 
     public void CloseCityPanel()
@@ -28,6 +65,16 @@ public class CityPanel : MonoBehaviour {
         cg.alpha = 0;
         cg.blocksRaycasts = false;
         cg.interactable = false;
+        thisCity = null;
     }
 
+    public void MovePlayerHere()
+    {
+        PlayerMovement.singleton.MoveToCity(thisCity);
+    }
+
+    public void Buy()
+    {
+        Inventory.singleton.BuyFromCity(thisCity);
+    }
 }
