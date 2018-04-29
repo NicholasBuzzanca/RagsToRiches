@@ -41,6 +41,19 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     CityPanel.singleton.CloseCityPanel();
                 }
+                House house = hit.transform.GetComponent<House>();
+                if(house != null)
+                {
+                    //buy house or sell house
+                    if(house.isOwned)
+                    {
+                        Inventory.singleton.SellHouse(house);
+                    }
+                    else if(house.isForSale)
+                    {
+                        Inventory.singleton.BuyHouse(house);
+                    }
+                }
             }
         }
         //handle city location

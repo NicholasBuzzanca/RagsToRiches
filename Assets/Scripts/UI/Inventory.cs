@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour {
     List<GameObject> slots;
     int slotCount;
 
+    public float PlayerValue;
+
     CanvasGroup cg;
     bool isOpen;
 
@@ -39,6 +41,7 @@ public class Inventory : MonoBehaviour {
             s.transform.SetParent(slotPanel.transform);
         }
         slotCount = 3;
+        PlayerValue = 1;
 	}
 
     void Update()
@@ -170,6 +173,28 @@ public class Inventory : MonoBehaviour {
         else
         {
             return;
+        }
+    }
+
+    public void BuyHouse(House house)
+    {
+        if (house.isForSale && !house.isOwned)
+        {
+            if(house.currPrice < gold)
+            {
+                house.isOwned = true;
+                gold -= (int)house.currPrice;
+            }
+        }
+    }
+
+    public void SellHouse(House house)
+    {
+        if(house.isOwned)
+        {
+            house.isOwned = false;
+            house.isForSale = false;
+            gold += (int)house.currPrice;
         }
     }
 }
