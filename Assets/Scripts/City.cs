@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class City : MonoBehaviour {
+public class City : MonoBehaviour, Location {
 
     public enum Resources {Fish = 0, Meat = 1, Vegetable = 2, Wool = 3, Silk = 4, Dye = 5, Wood = 6, Stone = 7, Iron = 8}
 

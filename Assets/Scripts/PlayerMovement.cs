@@ -10,7 +10,9 @@ public class PlayerMovement : MonoBehaviour {
     NavMeshAgent navMeshAgent;
 
     public City thisCity;
-    City movingTo;
+    public Production thisProd;
+    bool isMovingToCity;
+    Location movingTo;
     public Camera cam;
 
 	// Use this for initialization
@@ -54,18 +56,39 @@ public class PlayerMovement : MonoBehaviour {
                         Inventory.singleton.BuyHouse(house);
                     }
                 }
+                Production prod = hit.transform.GetComponent<Production>();
+                if(prod != null)
+                {
+                    //buy prod or open prodpanel
+                    if(prod.isOwned)
+                    {
+                        ProductionPanel.singleton.OpenProdPanel(prod);
+                    }
+                    else if(prod.isForSale)
+                    {
+                        Inventory.singleton.BuyProd(prod);
+                    }
+                }
+                else if (!CameraMovement.singleton.isHovering)
+                {
+                    ProductionPanel.singleton.CloseProdPanel();
+                }
             }
         }
         //handle city location
         //if (!ReferenceEquals(movingTo, thisCity))
         //{
-        if (navMeshAgent.remainingDistance - navMeshAgent.stoppingDistance < .05f)
+        if (navMeshAgent.remainingDistance - navMeshAgent.stoppingDistance < 2f)
         {
-            thisCity = movingTo;
+            if (isMovingToCity)
+                thisCity = (City)movingTo;
+            else
+                thisProd = (Production)movingTo;
         }
         else
         {
             thisCity = null;
+            thisProd = null;
         }
         //}
     }
@@ -76,6 +99,18 @@ public class PlayerMovement : MonoBehaviour {
         navMeshAgent.SetDestination(city.transform.position);
         movingTo = city;
         thisCity = null;
+        thisProd = null;
+        isMovingToCity = true;
+    }
+
+    public void MoveToProduction(Production prod)
+    {
+        navMeshAgent.isStopped = false;
+        navMeshAgent.SetDestination(prod.transform.position);
+        movingTo = prod;
+        thisCity = null;
+        thisProd = null;
+        isMovingToCity = false;
     }
 
 }

@@ -7,6 +7,7 @@ public class BuildingManager : MonoBehaviour {
     public static BuildingManager singleton;
 
     List<House> houses;
+    List<Production> productions;
 
     float timer;
 
@@ -16,27 +17,51 @@ public class BuildingManager : MonoBehaviour {
             singleton = this;
 
         houses = new List<House>();
-	}
+        productions = new List<Production>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		if(timer < Time.time)
         {
             timer = Time.time + 5f;
-            SellHouse();
+            if (Random.Range(0, 1) > .7f)
+            {
+                if (!SellHouse())
+                    SellProduction();
+            }
+            else
+            {
+                if (!SellProduction())
+                    SellHouse();
+            }
         }
 	}
 
-    public void SellHouse()
+    public bool SellHouse()
     {
         for (int i = 0; i < houses.Count; i++)
         {
             if(!houses[i].isForSale)
             {
                 if(houses[i].PutUpForSale(Inventory.singleton.PlayerValue))
-                    return;
+                    return true;
             }
         }
+        return false;
+    }
+
+    public bool SellProduction()
+    {
+        for (int i = 0; i < productions.Count; i++)
+        {
+            if (!productions[i].isForSale)
+            {
+                if (productions[i].PutUpForSale(Inventory.singleton.PlayerValue))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public void CheckInHouse(House house)
@@ -44,5 +69,10 @@ public class BuildingManager : MonoBehaviour {
         houses.Add(house);
     }
 
-    
+    public void CheckInProduction(Production prod)
+    {
+        productions.Add(prod);
+    }
+
+
 }

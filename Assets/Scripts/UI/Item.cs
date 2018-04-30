@@ -8,12 +8,14 @@ public class Item : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler, IPo
     public City.Resources type;
     public Vector3 location;
     public int slotNum;
+    public Production prod;
 
-    public void Init(City.Resources type, Vector3 location, int slotNum)
+    public void Init(City.Resources type, Vector3 location, int slotNum, Production prod)
     {
         this.type = type;
         this.location = location;
         this.slotNum = slotNum;
+        this.prod = prod;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -28,7 +30,16 @@ public class Item : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler, IPo
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Inventory.singleton.SellToCity(slotNum);
-        InventoryToolTip.singleton.CloseToolTip();
+        if (prod == null)
+        {
+            //try to sell to city
+            Inventory.singleton.SellToCity(slotNum);
+            InventoryToolTip.singleton.CloseToolTip();
+        }
+        else
+        {
+            //put in inventory
+            Inventory.singleton.TakeFromProd(prod);
+        }
     }
 }

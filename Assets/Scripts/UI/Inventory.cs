@@ -85,7 +85,7 @@ public class Inventory : MonoBehaviour {
             {
                 //add item here
                 GameObject newItem = Instantiate(item);
-                newItem.GetComponent<Item>().Init(type, origin, i);
+                newItem.GetComponent<Item>().Init(type, origin, i, null);
 
                 Vector3 scale = newItem.transform.localScale;
                 Quaternion rot = newItem.transform.localRotation;
@@ -176,6 +176,16 @@ public class Inventory : MonoBehaviour {
         }
     }
 
+    public void TakeFromProd(Production prod)
+    {
+        if (!HasInventorySpot())
+            return;
+        if (!ReferenceEquals(PlayerMovement.singleton.thisProd, prod))
+            return;
+        prod.resourceAmt--;
+        AddItem(prod.transform.position, prod.generates);
+    }
+
     public void BuyHouse(House house)
     {
         if (house.isForSale && !house.isOwned)
@@ -195,6 +205,30 @@ public class Inventory : MonoBehaviour {
             house.isOwned = false;
             house.isForSale = false;
             gold += (int)house.currPrice;
+        }
+    }
+
+    public void BuyProd(Production prod)
+    {
+        if(prod.isForSale && !prod.isOwned)
+        {
+            if(prod.currPrice < gold)
+            {
+                prod.isOwned = true;
+                prod.resourceAmt = 0;
+                gold -= (int)prod.currPrice;
+                prod.genTimer = Time.time + 15f;
+            }
+        }
+    }
+
+    public void SellProd(Production prod)
+    {
+        if(prod.isOwned)
+        {
+            prod.isOwned = false;
+            prod.isForSale = false;
+            gold += (int)prod.currPrice;
         }
     }
 }
