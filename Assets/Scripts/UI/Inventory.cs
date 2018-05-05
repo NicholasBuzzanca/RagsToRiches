@@ -54,26 +54,27 @@ public class Inventory : MonoBehaviour {
 
     public void AddSlots(int amt)
     {
-        for (int i = 0; (i < amt || slots.Count != 16); i++)
+        slotCount += amt;
+        for (int i = 0; (i < amt && slots.Count != 16); i++)
         {
             GameObject s = Instantiate(slot);
             slots.Add(s);
             s.transform.SetParent(slotPanel.transform);
-            slotCount++;
+            
         }
     }
 
     //todo handle items in removed slots
     public void RemoveSlots(int amt)
     {
-        for (int i = slots.Count-1; i > slots.Count-1-amt; i--)
+        slotCount -= amt;
+        if (slotCount >= 16)
+            return;
+
+        for (int i = slots.Count; i > slotCount; i--)
         {
-            if (slotCount <= 16)
-            {
-                slots.RemoveAt(i);
-                Destroy(slotPanel.transform.GetChild(i));
-            }
-            slotCount--;
+            Destroy(slots[i - 1]);
+            slots.RemoveAt(i-1);            
         }
     }
 
@@ -192,6 +193,14 @@ public class Inventory : MonoBehaviour {
         {
             if(house.currPrice < gold)
             {
+                if(house.thisBuff == House.Buff.Inventory)
+                {
+                    AddSlots(1);
+                }
+                if (house.thisBuff == House.Buff.Movespeed)
+                {
+                    PlayerMovement.singleton.ChangeSpeed(.12f);
+                }
                 house.isOwned = true;
                 gold -= (int)house.currPrice;
             }
@@ -200,7 +209,15 @@ public class Inventory : MonoBehaviour {
 
     public void SellHouse(House house)
     {
-        if(house.isOwned)
+        if (house.thisBuff == House.Buff.Inventory)
+        {
+            RemoveSlots(1);
+        }
+        if (house.thisBuff == House.Buff.Movespeed)
+        {
+            PlayerMovement.singleton.ChangeSpeed(-.12f);
+        }
+        if (house.isOwned)
         {
             house.isOwned = false;
             house.isForSale = false;

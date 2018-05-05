@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class House : MonoBehaviour {
 
+    public enum Buff {None = 0, Inventory = 1, Movespeed = 2 };
+    public Buff thisBuff;
+
     public bool isForSale;
     public bool isOwned;
 

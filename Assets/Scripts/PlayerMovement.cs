@@ -93,6 +93,11 @@ public class PlayerMovement : MonoBehaviour {
         //}
     }
 
+    public void ChangeSpeed(float amt)
+    {
+        navMeshAgent.speed += amt;
+    }
+
     public void MoveToCity(City city)
     {
         navMeshAgent.isStopped = false;
