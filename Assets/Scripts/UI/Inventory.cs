@@ -10,6 +10,16 @@ public class Inventory : MonoBehaviour {
     public int gold;
     public int inventorySize;
 
+    public Sprite vegImage;
+    public Sprite meatImage;
+    public Sprite fishImage;
+    public Sprite woodImage;
+    public Sprite rockImage;
+    public Sprite oreImage;
+    public Sprite silkImage;
+    public Sprite dyeImage;
+    public Sprite woolImage;
+
     public GameObject slot;
     public GameObject item;
     public GameObject slotPanel;
@@ -98,7 +108,36 @@ public class Inventory : MonoBehaviour {
                 newItem.transform.localPosition = Vector3.zero;
 
                 //2d image code here
-
+                switch (type)
+                {
+                    case City.Resources.Vegetable:
+                        newItem.GetComponent<Image>().sprite = vegImage;
+                        break;
+                    case City.Resources.Meat:
+                        newItem.GetComponent<Image>().sprite = meatImage;
+                        break;
+                    case City.Resources.Fish:
+                        newItem.GetComponent<Image>().sprite = fishImage;
+                        break;
+                    case City.Resources.Stone:
+                        newItem.GetComponent<Image>().sprite = rockImage;
+                        break;
+                    case City.Resources.Iron:
+                        newItem.GetComponent<Image>().sprite = oreImage;
+                        break;
+                    case City.Resources.Wood:
+                        newItem.GetComponent<Image>().sprite = woodImage;
+                        break;
+                    case City.Resources.Wool:
+                        newItem.GetComponent<Image>().sprite = woolImage;
+                        break;
+                    case City.Resources.Silk:
+                        newItem.GetComponent<Image>().sprite = silkImage;
+                        break;
+                    case City.Resources.Dye:
+                        newItem.GetComponent<Image>().sprite = dyeImage;
+                        break;
+                }
                 return;
             }
         }

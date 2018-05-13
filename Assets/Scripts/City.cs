@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class City : MonoBehaviour, Location {
 
-    public enum Resources {Fish = 0, Meat = 1, Vegetable = 2, Wool = 3, Silk = 4, Dye = 5, Wood = 6, Stone = 7, Iron = 8}
+    public enum Resources {None = -1, Fish = 0, Meat = 1, Vegetable = 2, Wool = 3, Silk = 4, Dye = 5, Wood = 6, Stone = 7, Iron = 8}
 
     public Resources export;
     public string cityName;
@@ -26,6 +26,54 @@ public class City : MonoBehaviour, Location {
         lastUpdateTime = Time.time;
 	}
 	
+    public bool AIBuy()
+    {
+        if (noUpdate == 0)
+        {
+            if (foodStock > 0)
+            {
+                foodStock--;
+                return true;
+            }
+            return false;
+        }
+        if (noUpdate == 1)
+        {
+            if (luxuryStock > 0)
+            {
+                luxuryStock--;
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            if (materialStock > 0)
+            {
+                materialStock--;
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public void AISell(Resources resource)
+    {
+        int type = (int)resource / 3;
+        if (type == 0)
+        {
+            foodStock++;
+        }
+        if (type == 1)
+        {
+            luxuryStock++;
+        }
+        else
+        {
+            materialStock++;
+        }
+    }
+
     public int CostToBuy()
     {
         if (noUpdate == 0)
@@ -128,21 +176,21 @@ public class City : MonoBehaviour, Location {
 
     public void UpdateStock()
     {
-        int tenSec = (int)((Time.time - lastUpdateTime)/10f);
-        if (tenSec == 0)
+        int eightSec = (int)((Time.time - lastUpdateTime)/8f);
+        if (eightSec == 0)
             return;
         if(noUpdate != 0)
-            foodStock = Mathf.Max(foodStock-tenSec,0);
+            foodStock = Mathf.Max(foodStock-eightSec,0);
         else
-            foodStock = Mathf.Min(foodStock + tenSec, 10);
+            foodStock = Mathf.Min(foodStock + eightSec*5, 10);
         if (noUpdate != 1)
-            luxuryStock = Mathf.Max(luxuryStock - tenSec, 0);
+            luxuryStock = Mathf.Max(luxuryStock - eightSec, 0);
         else
-            luxuryStock = Mathf.Min(luxuryStock + tenSec, 10);
+            luxuryStock = Mathf.Min(luxuryStock + eightSec*5, 10);
         if (noUpdate != 2)
-            materialStock = Mathf.Max(materialStock - tenSec, 0);
+            materialStock = Mathf.Max(materialStock - eightSec, 0);
         else
-            materialStock = Mathf.Min(materialStock + tenSec, 10);
+            materialStock = Mathf.Min(materialStock + eightSec*5, 10);
 
         lastUpdateTime = Time.time;
     }

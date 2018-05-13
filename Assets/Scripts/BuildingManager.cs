@@ -24,7 +24,7 @@ public class BuildingManager : MonoBehaviour {
 	void Update () {
 		if(timer < Time.time)
         {
-            timer = Time.time + 5f;
+            timer = Time.time + 2f;
             if (Random.Range(0, 1) > .7f)
             {
                 if (!SellHouse())
@@ -38,28 +38,43 @@ public class BuildingManager : MonoBehaviour {
         }
 	}
 
+    //starts at a random spot in the houses array
     public bool SellHouse()
     {
-        for (int i = 0; i < houses.Count; i++)
+        int i = Random.Range(0,houses.Count);
+        int count = 0;
+        while (count < 2)
         {
-            if(!houses[i].isForSale)
+            for (int j = i; j < houses.Count; j++)
             {
-                if(houses[i].PutUpForSale(Inventory.singleton.PlayerValue))
-                    return true;
+                if (!houses[j].isForSale)
+                {
+                    if (houses[j].PutUpForSale(Inventory.singleton.PlayerValue))
+                        return true;
+                }
             }
+            count++;
+            i = 0;
         }
         return false;
     }
 
     public bool SellProduction()
     {
-        for (int i = 0; i < productions.Count; i++)
+        int j = Random.Range(0, houses.Count);
+        int count = 0;
+        while (count < 2)
         {
-            if (!productions[i].isForSale)
+            for (int i = j; i < productions.Count; i++)
             {
-                if (productions[i].PutUpForSale(Inventory.singleton.PlayerValue))
-                    return true;
+                if (!productions[i].isForSale)
+                {
+                    if (productions[i].PutUpForSale(Inventory.singleton.PlayerValue))
+                        return true;
+                }
             }
+            count++;
+            j = 0;
         }
         return false;
     }

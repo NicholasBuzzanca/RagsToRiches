@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour {
 
     NavMeshAgent navMeshAgent;
 
+    Animator anim;
+
     public City thisCity;
     public Production thisProd;
     bool isMovingToCity;
@@ -20,6 +22,7 @@ public class PlayerMovement : MonoBehaviour {
         if (singleton == null)
             singleton = this;
 
+        anim = GetComponent<Animator>();
         cam = Camera.main;
         thisCity = null;
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -80,6 +83,7 @@ public class PlayerMovement : MonoBehaviour {
         //{
         if (navMeshAgent.remainingDistance - navMeshAgent.stoppingDistance < 2f)
         {
+            anim.SetBool("IsMoving",false);
             if (isMovingToCity)
                 thisCity = (City)movingTo;
             else
@@ -89,6 +93,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             thisCity = null;
             thisProd = null;
+            anim.SetBool("IsMoving", true);
         }
         //}
     }

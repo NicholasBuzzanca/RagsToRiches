@@ -1,17 +1,16 @@
 fileFormatVersion: 2
-guid: 46fc09a80ee28fd4cbba752bccb78cd5
-timeCreated: 1524870306
+guid: cab29d2e1f814234abb25098c9d15acb
+timeCreated: 1525826385
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Grass
-    2100002: Road
+    2100000: White
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Plane
+    4300000: Cylinder
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
