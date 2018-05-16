@@ -77,6 +77,11 @@ public class PlayerMovement : MonoBehaviour {
                     ProductionPanel.singleton.CloseProdPanel();
                 }
             }
+            else
+            {
+                CityPanel.singleton.CloseCityPanel();
+                ProductionPanel.singleton.CloseProdPanel();
+            }
         }
         //handle city location
         //if (!ReferenceEquals(movingTo, thisCity))

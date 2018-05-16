@@ -288,6 +288,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LowPolyWaterv2\Demos\Scripts\DemoFreeFlyCamera.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\LowPolyWaterScript.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWDepthEffect.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWDisplace.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWHiddenProps.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWNoise.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWNormalSolver.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWReflection.cs" />
+    <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWWaterChunk.cs" />
     <Compile Include="Assets\RandomFromDistributions\Scripts\RandomFromDistribution.cs" />
     <Compile Include="Assets\Scripts\AIManager.cs" />
     <Compile Include="Assets\Scripts\AIUnit.cs" />
@@ -296,18 +305,32 @@
     <Compile Include="Assets\Scripts\City.cs" />
     <Compile Include="Assets\Scripts\House.cs" />
     <Compile Include="Assets\Scripts\Location.cs" />
+    <Compile Include="Assets\Scripts\Mansion.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Production.cs" />
     <Compile Include="Assets\Scripts\UI\CityPanel.cs" />
     <Compile Include="Assets\Scripts\UI\Inventory.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryToolTip.cs" />
     <Compile Include="Assets\Scripts\UI\Item.cs" />
+    <Compile Include="Assets\Scripts\UI\LookAtCameraYonly.cs" />
     <Compile Include="Assets\Scripts\UI\OnHover.cs" />
     <Compile Include="Assets\Scripts\UI\ProductionPanel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWCompatibility.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWLighting.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWLite.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWNoise.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWReflection.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWRenderDepth.shader" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWRipples.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWShoreBlend.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWStandard.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LPWWaves.cginc" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LowPolyWaterAdvanced.shader" />
+    <None Include="Assets\LowPolyWaterv2\Shaders\LowPolyWaterLite.shader" />
     <None Include="Assets\Scripts\Test.shader" />
-    <None Include="Assets\Scripts\test2.shader" />
+    <None Include="Assets\Scripts\TreeShake.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

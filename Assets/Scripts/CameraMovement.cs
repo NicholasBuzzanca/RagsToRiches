@@ -30,8 +30,8 @@ public class CameraMovement : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        if (isHovering)
+    //void Update () {
+        /*if (isHovering)
         {
             lastMove = Vector3.zero;
             return;
@@ -82,5 +82,5 @@ public class CameraMovement : MonoBehaviour {
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, botBoundary);
         }
-    }
+    }*/
 }
