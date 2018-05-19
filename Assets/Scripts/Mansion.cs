@@ -6,15 +6,19 @@ using UnityEngine.UI;
 
 public class Mansion : MonoBehaviour {
 
+    public static Mansion singleton;
+
     public float startValue;
     float currValue;
 
     public float volatility;
 
+    public CanvasGroup cg;
     public Text text;
 
 	// Use this for initialization
 	void Start () {
+        singleton = this;
         text.color = Color.black;
         currValue = startValue;
         DisplayPrice();
@@ -35,5 +39,15 @@ public class Mansion : MonoBehaviour {
     void DisplayPrice()
     {
         text.text = "$" + ((int)currValue);
+    }
+
+    public void BuyMansion()
+    {
+        int gold = Inventory.singleton.gold;
+        if(gold >= currValue)
+        {
+            //end game
+            EndGameManager.singleton.OpenEndGame();
+        }
     }
 }

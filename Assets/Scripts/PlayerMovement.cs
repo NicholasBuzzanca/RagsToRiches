@@ -76,6 +76,11 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     ProductionPanel.singleton.CloseProdPanel();
                 }
+                Mansion mansion = hit.transform.GetComponent<Mansion>();
+                if(mansion != null)
+                {
+                    mansion.BuyMansion();
+                }
             }
             else
             {
