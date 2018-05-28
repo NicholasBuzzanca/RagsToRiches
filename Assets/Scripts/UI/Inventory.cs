@@ -10,6 +10,9 @@ public class Inventory : MonoBehaviour {
     public int gold;
     public int inventorySize;
 
+    public GameObject floatingText;
+    public GameObject gameUI;
+
     public Sprite vegImage;
     public Sprite meatImage;
     public Sprite fishImage;
@@ -41,7 +44,7 @@ public class Inventory : MonoBehaviour {
         gold = 100;
         cg = GetComponent<CanvasGroup>();
         inventorySize = 3;
-        isOpen = false;
+        isOpen = true;
 
         slots = new List<GameObject>();
         for (int i = 0; i < 3; i++)
@@ -192,38 +195,61 @@ public class Inventory : MonoBehaviour {
         RemoveItem(slot);
     }
 
+    public bool SellToCity(Production prod)
+    {
+        City city = PlayerMovement.singleton.thisCity;
+        if(city == null)
+        {
+            return false;
+        }
+        gold += city.Sell(prod.generates, Vector3.Distance(prod.transform.position,city.transform.position));
+        return true;
+    }
+
     public void BuyFromCity(City city)
     {
         //if player is not at city return
-        if (!ReferenceEquals(PlayerMovement.singleton.thisCity,city))
+        if (!ReferenceEquals(PlayerMovement.singleton.thisCity, city))
+        {
+            SFXManager.singleton.PlayButtonClickSFX();
             return;
+        }
 
         int cost = city.CostToBuy();
         if (cost > gold)
+        {
+            SFXManager.singleton.PlayButtonClickSFX();
             return;
+        }
         //if no inv space return
         if (!HasInventorySpot())
+        {
+            SFXManager.singleton.PlayButtonClickSFX();
             return;
+        }
         if(city.BuyOne())
         {
             gold -= cost;
             //add to inv
             AddItem(city.transform.position,city.export);
+            SFXManager.singleton.PlayBuySFX();
         }
         else
         {
+            SFXManager.singleton.PlayButtonClickSFX();
             return;
         }
     }
 
-    public void TakeFromProd(Production prod)
+    public bool TakeFromProd(Production prod)
     {
-        if (!HasInventorySpot())
-            return;
-        if (!ReferenceEquals(PlayerMovement.singleton.thisProd, prod))
-            return;
-        prod.resourceAmt--;
-        AddItem(prod.transform.position, prod.generates);
+        if (SellToCity(prod))
+        {
+            prod.resourceAmt--;
+            InventoryToolTip.singleton.CloseToolTip();
+            return true;
+        }
+        return false;
     }
 
     public void BuyHouse(House house)
@@ -235,32 +261,58 @@ public class Inventory : MonoBehaviour {
                 if(house.thisBuff == House.Buff.Inventory)
                 {
                     AddSlots(1);
+                    CreateFloatingText("+1 Inventory",house.transform.position);
                 }
                 if (house.thisBuff == House.Buff.Movespeed)
                 {
                     PlayerMovement.singleton.ChangeSpeed(.12f);
+                    CreateFloatingText("+1 Movement Speed", house.transform.position);
                 }
                 house.isOwned = true;
                 gold -= (int)house.currPrice;
+                SFXManager.singleton.PlayBuySFX();
+                return;
             }
         }
+        SFXManager.singleton.PlayButtonClickSFX();
+    }
+
+    void CreateFloatingText(string text, Vector3 pos)
+    {
+        GameObject fText = Instantiate(floatingText);
+        //?????????????
+        fText.transform.GetChild(0).GetComponent<Text>().text = text;
+
+        fText.transform.SetParent(gameUI.transform);
+
+        Vector2 screenPos = Camera.main.WorldToScreenPoint(pos);
+
+        fText.transform.position = screenPos;
     }
 
     public void SellHouse(House house)
     {
+        if (!house.isOwned)
+        {
+            SFXManager.singleton.PlayButtonClickSFX();
+            return;
+        }
         if (house.thisBuff == House.Buff.Inventory)
         {
             RemoveSlots(1);
+            CreateFloatingText("-1 Inventory",house.transform.position);
         }
         if (house.thisBuff == House.Buff.Movespeed)
         {
             PlayerMovement.singleton.ChangeSpeed(-.12f);
+            CreateFloatingText("-1 Movement Speed", house.transform.position);
         }
         if (house.isOwned)
         {
             house.isOwned = false;
             house.isForSale = false;
             gold += (int)house.currPrice;
+            SFXManager.singleton.PlayBuySFX();
         }
     }
 
@@ -274,8 +326,11 @@ public class Inventory : MonoBehaviour {
                 prod.resourceAmt = 0;
                 gold -= (int)prod.currPrice;
                 prod.genTimer = Time.time + 15f;
+                SFXManager.singleton.PlayBuySFX();
+                return;
             }
         }
+        SFXManager.singleton.PlayButtonClickSFX();
     }
 
     public void SellProd(Production prod)

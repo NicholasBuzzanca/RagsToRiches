@@ -30,7 +30,7 @@ public class Mansion : MonoBehaviour {
         float rnd = Random.Range(0f,1f);
         float change_percent = 2f * volatility * rnd;
         if (change_percent > volatility)
-            change_percent -= 1.9f*(volatility);
+            change_percent -= 1.95f*(volatility);
         float change_amount = currValue * change_percent;
         currValue = currValue + change_amount;
         DisplayPrice();

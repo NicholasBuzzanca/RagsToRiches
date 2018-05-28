@@ -7,6 +7,10 @@ public class ProductionPanel : MonoBehaviour {
 
     public static ProductionPanel singleton;
 
+    public Sprite oreImage;
+    public Sprite meatImage;
+    public Sprite dyeImage;
+
     public Text type;
     public GameObject item;
     public Transform slotHolder;
@@ -15,12 +19,16 @@ public class ProductionPanel : MonoBehaviour {
     CanvasGroup cg;
 
     Production thisProd;
+    City.Resources thisType;
+    int numGenerated;
 
 	// Use this for initialization
 	void Start () {
         if (singleton == null)
             singleton = this;
 
+        numGenerated = 0;
+        thisType = City.Resources.None;
         cg = GetComponent<CanvasGroup>();
         slots = new List<GameObject>();
         for (int i = 0; i < 9; i++)
@@ -53,6 +61,15 @@ public class ProductionPanel : MonoBehaviour {
     {
         type.text = thisProd.generates + "";
 
+        if(thisProd.resourceAmt == numGenerated && thisProd.generates == thisType)
+        {
+            return;
+        }
+
+        thisType = thisProd.generates;
+        numGenerated = thisProd.resourceAmt;
+        InventoryToolTip.singleton.CloseToolTip();
+
         for (int i = 0; i < 9; i++)
         {
             if (slots[i].transform.childCount > 0)
@@ -73,8 +90,18 @@ public class ProductionPanel : MonoBehaviour {
                 newItem.transform.localPosition = Vector3.zero;
 
                 //2d image code here
-
-                return;
+                switch (thisProd.generates)
+                {
+                    case City.Resources.Meat:
+                        newItem.GetComponent<Image>().sprite = meatImage;
+                        break;
+                    case City.Resources.Iron:
+                        newItem.GetComponent<Image>().sprite = oreImage;
+                        break;
+                    case City.Resources.Dye:
+                        newItem.GetComponent<Image>().sprite = dyeImage;
+                        break;
+                }
             }
         }
     }
@@ -89,12 +116,17 @@ public class ProductionPanel : MonoBehaviour {
 
     public void SellProduction()
     {
+        if (EndGameManager.singleton.isPaused)
+            return;
         Inventory.singleton.SellProd(thisProd);
+        SFXManager.singleton.PlayBuySFX();
         CloseProdPanel();
     }
 
     public void MovePlayerHere()
     {
+        if (EndGameManager.singleton.isPaused)
+            return;
         PlayerMovement.singleton.MoveToProduction(thisProd);
     }
 }

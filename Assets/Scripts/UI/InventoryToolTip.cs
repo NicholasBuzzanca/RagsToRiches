@@ -8,7 +8,7 @@ public class InventoryToolTip : MonoBehaviour {
     public static InventoryToolTip singleton;
 
     CanvasGroup cg;
-    bool isOpen;
+    public bool isOpen;
     public Text text;
     City.Resources type;
     Vector3 origin;

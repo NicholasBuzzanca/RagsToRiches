@@ -48,6 +48,13 @@ public class CityPanel : MonoBehaviour {
         luxurytext.text = thisCity.luxuryStock + "";
     }
 
+    public bool isOpen()
+    {
+        if (cg.alpha == 0)
+            return false;
+        return true;
+    }
+
     public void OpenCityPanel(City city)
     {
         cg.alpha = 1;
@@ -70,11 +77,16 @@ public class CityPanel : MonoBehaviour {
 
     public void MovePlayerHere()
     {
+        if (EndGameManager.singleton.isPaused)
+            return;
+        SFXManager.singleton.PlayButtonClickSFX();
         PlayerMovement.singleton.MoveToCity(thisCity);
     }
 
     public void Buy()
     {
+        if (EndGameManager.singleton.isPaused)
+            return;
         Inventory.singleton.BuyFromCity(thisCity);
     }
 }

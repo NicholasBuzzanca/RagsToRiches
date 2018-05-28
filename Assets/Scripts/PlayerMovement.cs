@@ -9,8 +9,6 @@ public class PlayerMovement : MonoBehaviour {
 
     NavMeshAgent navMeshAgent;
 
-    Animator anim;
-
     public City thisCity;
     public Production thisProd;
     bool isMovingToCity;
@@ -22,7 +20,6 @@ public class PlayerMovement : MonoBehaviour {
         if (singleton == null)
             singleton = this;
 
-        anim = GetComponent<Animator>();
         cam = Camera.main;
         thisCity = null;
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -30,6 +27,12 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            EndGameManager.singleton.TogglePause();
+        }
+        if (EndGameManager.singleton.isPaused)
+            return;
         //handle city selection
         if (Input.GetMouseButtonDown(0) && !CameraMovement.singleton.isHovering)
         {
@@ -41,10 +44,14 @@ public class PlayerMovement : MonoBehaviour {
                 if (city != null)
                 {
                     CityPanel.singleton.OpenCityPanel(city);
+                    ProductionPanel.singleton.CloseProdPanel();
+                    SFXManager.singleton.PlayButtonClickSFX();
+                    return;
                 }
-                else if(!CameraMovement.singleton.isHovering)
+                if(!CameraMovement.singleton.isHovering && CityPanel.singleton.isOpen())
                 {
                     CityPanel.singleton.CloseCityPanel();
+                    SFXManager.singleton.PlayButtonClickSFX();
                 }
                 House house = hit.transform.GetComponent<House>();
                 if(house != null)
@@ -66,20 +73,24 @@ public class PlayerMovement : MonoBehaviour {
                     if(prod.isOwned)
                     {
                         ProductionPanel.singleton.OpenProdPanel(prod);
+                        SFXManager.singleton.PlayButtonClickSFX();
                     }
                     else if(prod.isForSale)
                     {
                         Inventory.singleton.BuyProd(prod);
                     }
+                    CityPanel.singleton.CloseCityPanel();
                 }
                 else if (!CameraMovement.singleton.isHovering)
                 {
                     ProductionPanel.singleton.CloseProdPanel();
+                    SFXManager.singleton.PlayButtonClickSFX();
                 }
                 Mansion mansion = hit.transform.GetComponent<Mansion>();
                 if(mansion != null)
                 {
                     mansion.BuyMansion();
+                    SFXManager.singleton.PlayButtonClickSFX();
                 }
             }
             else
@@ -93,7 +104,6 @@ public class PlayerMovement : MonoBehaviour {
         //{
         if (navMeshAgent.remainingDistance - navMeshAgent.stoppingDistance < 2f)
         {
-            anim.SetBool("IsMoving",false);
             if (isMovingToCity)
                 thisCity = (City)movingTo;
             else
@@ -103,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             thisCity = null;
             thisProd = null;
-            anim.SetBool("IsMoving", true);
+
         }
         //}
     }

@@ -28,7 +28,8 @@ public class BuildingManager : MonoBehaviour {
 		if(timer < Time.time && inGame)
         {
             timer = Time.time + 2f;
-            if (Random.Range(0, 1) > .7f)
+            float rand = Random.Range(0f, 1f);
+            if (rand < .85f)
             {
                 if (!SellHouse())
                     SellProduction();
@@ -85,7 +86,7 @@ public class BuildingManager : MonoBehaviour {
 
     public bool SellProduction()
     {
-        int j = Random.Range(0, houses.Count);
+        int j = Random.Range(0, productions.Count);
         int count = 0;
         while (count < 2)
         {

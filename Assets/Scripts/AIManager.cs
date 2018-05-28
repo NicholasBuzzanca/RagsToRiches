@@ -16,7 +16,7 @@ public class AIManager : MonoBehaviour {
 	
 	public City GetDestination()
     {
-        int index = Random.Range(0,9);
+        int index = Random.Range(0,cities.Length);
         return cities[index].GetComponent<City>();
     }
 }

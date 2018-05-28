@@ -32,6 +32,8 @@ public class Production : MonoBehaviour, Location {
         //isOwned = false;
         BuildingManager.singleton.CheckInProduction(this);
         deltaValue = 0;
+        float val = Random.Range(.5f,1.5f);
+        baseValue *= val; 
         currPrice = baseValue;
         cdTimer = 0;
     }
@@ -67,7 +69,7 @@ public class Production : MonoBehaviour, Location {
         {
             if(genTimer < Time.time)
             {
-                genTimer = Time.time + 15f;
+                genTimer = Time.time + 10f;
                 resourceAmt = Mathf.Min(resourceAmt+1,9);
             }
         }

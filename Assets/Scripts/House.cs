@@ -30,6 +30,8 @@ public class House : MonoBehaviour {
         //isOwned = false;
         BuildingManager.singleton.CheckInHouse(this);
         deltaValue = 0;
+        float val = Random.Range(.5f, 1.5f);
+        baseValue *= val;
         currPrice = baseValue;
         cdTimer = 0;
 	}

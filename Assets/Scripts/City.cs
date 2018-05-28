@@ -179,18 +179,36 @@ public class City : MonoBehaviour, Location {
         int eightSec = (int)((Time.time - lastUpdateTime)/8f);
         if (eightSec == 0)
             return;
-        if(noUpdate != 0)
-            foodStock = Mathf.Max(foodStock-eightSec,0);
+        if (noUpdate != 0)
+        {
+            if (foodStock > 9)
+                eightSec *= 2;
+            else if (foodStock > 19)
+                eightSec *= 4;
+            foodStock = Mathf.Max(foodStock - eightSec, 0);
+        }
         else
-            foodStock = Mathf.Min(foodStock + eightSec*5, 10);
+            foodStock = Mathf.Min(foodStock + eightSec * 5, 20);
         if (noUpdate != 1)
+        {
+            if (luxuryStock > 9)
+                eightSec *= 2;
+            else if (luxuryStock > 19)
+                eightSec *= 4;
             luxuryStock = Mathf.Max(luxuryStock - eightSec, 0);
+        }
         else
-            luxuryStock = Mathf.Min(luxuryStock + eightSec*5, 10);
+            luxuryStock = Mathf.Min(luxuryStock + eightSec * 5, 20);
         if (noUpdate != 2)
+        {
+            if (materialStock > 9)
+                eightSec *= 2;
+            else if (materialStock > 19)
+                eightSec *= 4;
             materialStock = Mathf.Max(materialStock - eightSec, 0);
+        }
         else
-            materialStock = Mathf.Min(materialStock + eightSec*5, 10);
+            materialStock = Mathf.Min(materialStock + eightSec * 5, 20);
 
         lastUpdateTime = Time.time;
     }

@@ -21,6 +21,7 @@ public class Item : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler, IPo
     public void OnPointerEnter(PointerEventData eventData)
     {
         InventoryToolTip.singleton.OpenToolTip(eventData.position, type, location);
+        SFXManager.singleton.PlayMouseHoverSFX();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -30,16 +31,22 @@ public class Item : MonoBehaviour, IPointerDownHandler,IPointerEnterHandler, IPo
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (EndGameManager.singleton.isPaused)
+            return;
         if (prod == null)
         {
             //try to sell to city
             Inventory.singleton.SellToCity(slotNum);
             InventoryToolTip.singleton.CloseToolTip();
+            SFXManager.singleton.PlayBuySFX();
         }
         else
         {
             //put in inventory
-            Inventory.singleton.TakeFromProd(prod);
+            if (Inventory.singleton.TakeFromProd(prod))
+                SFXManager.singleton.PlayBuySFX();
+            else
+                SFXManager.singleton.PlayButtonClickSFX();
         }
     }
 }
