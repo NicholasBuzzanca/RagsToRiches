@@ -297,7 +297,6 @@
     <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWNormalSolver.cs" />
     <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWReflection.cs" />
     <Compile Include="Assets\LowPolyWaterv2\Scripts\src\LPWWaterChunk.cs" />
-    <Compile Include="Assets\RandomFromDistributions\Scripts\RandomFromDistribution.cs" />
     <Compile Include="Assets\Scripts\AIManager.cs" />
     <Compile Include="Assets\Scripts\AIUnit.cs" />
     <Compile Include="Assets\Scripts\BuildingManager.cs" />
