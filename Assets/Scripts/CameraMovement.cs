@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//obsolete class...only used for the "isHovering" var.
+//isHovering is for detecting if mouse is over UI element
 public class CameraMovement : MonoBehaviour {
 
     public static CameraMovement singleton;
