@@ -101,7 +101,6 @@ public class House : MonoBehaviour {
             //upside down parabola
             priceMulti = (-(1f / (100)) * Mathf.Pow(Time.time - startTime - 5, 2f) + 1);
         }
-        //priceMulti += RandomFromDistribution.RandomRangeNormalDistribution(-.1f, .1f, RandomFromDistribution.ConfidenceLevel_e._60);
 
         return baseValue * priceMulti;
     }

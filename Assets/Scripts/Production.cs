@@ -69,7 +69,7 @@ public class Production : MonoBehaviour, Location {
         {
             if(genTimer < Time.time)
             {
-                genTimer = Time.time + 10f;
+                genTimer = Time.time + 20f;
                 resourceAmt = Mathf.Min(resourceAmt+1,9);
             }
         }
